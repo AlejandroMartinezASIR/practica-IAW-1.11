@@ -1,21 +1,22 @@
 #!/bin/bash
 
+#configuramos para mostrar comandos y finalizar si hay error
 set -ex
 
+#importamos el archivo variables
 source .env
 
-apt update
-
-apt upgrade -y
-
+#Instalamos core
 snap install core
-
 snap refresh core
 
-apt remove certbot
+#Eliminamos el certbot
+apt remove certbot -y
 
+#Lo instalamos
 snap install --classic certbot
 
-ln -sf /snap/bin/certbot /usr/bin/certbot 
+systemctl reload apache2
 
+#L
 certbot --apache -m $LE_EMAIL --agree-tos --no-eff-email -d $LE_DOMAIN --non-interactive

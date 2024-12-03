@@ -30,11 +30,11 @@ wp config create \
 
 
 wp core install \
-  --url=$CERTIFICATE_DOMAIN \
-  --title="$WORDPRESS_TITLE"\
-  --admin_user=$WORDPRESS_ADMIN_USER \
-  --admin_password=$WORDPRESS_ADMIN_PASS \
-  --admin_email=$WORDPRESS_ADMIN_EMAIL \
+  --url=$LE_DOMAIN \
+  --title="$WORDPRESS_DB_NAME"\
+  --admin_user=$WORDPRESS_DB_USER \
+  --admin_password=$WORDPRESS_DB_PASSWORD \
+  --admin_email=$WORDPRESS_EMAIL \
   --path=/var/www/html \
   --allow-root
 
