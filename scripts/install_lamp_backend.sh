@@ -1,19 +1,22 @@
 #!/bin/bash
+
+# Configuramos para mostrar los comandos y finalizar si hay error
 set -ex
 
-apt-get update
-
-apt-get upgrade -y
-
+# Importamos el archivo de variables 
 source .env
 
-apt-get install mysql-server -y
+# Actualizamos los repositorios
+apt update
 
-sed -i "s/127.0.0.1/$SERVER_PRIVATE_IP/" /etc/mysql/mysql.conf.d/mysqld.cnf
+# Actualiza los paquetes
+apt upgrade -y
 
-sudo mysql -u root <<< "DROP USER IF EXISTS $WORDPRESS_DB_USER@$FRONTEND_PRIVATE_IP;"
-sudo mysql -u root <<< "CREATE USER $WORDPRESS_DB_USER@$FRONTEND_PRIVATE_IP IDENTIFIED BY $WORDPRESS_DB_PASSWORD;"
-sudo mysql -u root <<< "GRANT ALL PRIVILEGES ON $WORDPRESS_DB_NAME.* TO $WORDPRESS_DB_USER@$FRONTEND_PRIVATE_IP;"
-sudo mysql -u root <<< "FLUSH PRIVILEGES;"
+# Instalamos mysql server
+apt install mysql-server -y
 
+# Configuramos el archivo /etc/mysql/mysql.conf.d/mysqld.cnf
+sed -i "s/127.0.0.1/$BACKEND_PRIVATE_IP/" /etc/mysql/mysql.conf.d/mysqld.cnf
+
+# Reiniciamos el servicio de MySQL
 systemctl restart mysql
